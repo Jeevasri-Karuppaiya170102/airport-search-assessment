@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="header">
+        <h1>Airport Search</h1>
+        <p>
+            Search Airports by Airport Code or city name. Results are filtered in
+            real time with autocomplete and keyboard navigation.
+        </p>
+    </div>
+
+    <div class="search-card">
+        <label for="airport">From</label>
+        <input id="airport" type="text" [formControl]="searchControl" (keydown)="onKeyDown($event)" autocomplete="off"
+            placeholder="Enter Airport Code (BLR) or City (Bangalore)" />
+
+        <div class="dropdown" *ngIf="showDropdown">
+            <div class="no-result" *ngIf="filteredAirports.length === 0">
+                No airports match your search.
+            </div>
+            <div class="item" *ngFor="let airport of filteredAirports; let i = index"
+                [class.active]="focusedIndex === i" (mouseenter)="focusedIndex = i" (click)="selectAirport(airport)">
+                <div class="airport-code">
+                    {{ airport.code }}
+                </div>
+
+                <div class="airport-info">
+                    <div class="top-row">
+                        <div class="city">
+                            {{ airport.city }}
+                        </div>
+                        <div class="country">
+                            {{ airport.country }}
+                        </div>
+                    </div>
+                    <div class="airport-name">
+                        {{ airport.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-card" *ngIf="selectedAirport">
+        <h3>Selected Airport</h3>
+        <pre>{{ selectedAirport | json }}</pre>
+    </div>
+</div>
